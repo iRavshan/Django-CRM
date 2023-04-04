@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+{% if user.is_authenticated %}
+
+<div class="table-responsive">
+  <table class="table caption-top table-striped table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Lastname</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Address</th>
+        <th scope="col">City</th>
+        <th scope="col">State</th>
+        <th scope="col">Zipcode</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if records %}
+      {% for record in records %}
+        <tr>
+          <th scope="row"> <a href="{% url 'record' record.id %}">{{ record.id }}</a> </th>
+          <th> {{record.first_name}} </th>
+          <th> {{record.last_name}}</th>
+          <th> {{record.email}} </th>
+          <th> {{record.phone}} </th>
+          <th> {{record.address}} </th>
+          <th> {{record.city}} </th>
+          <th> {{record.state}} </th>
+          <th> {{record.zipcode}} </th>
+        </tr>
+      {% endfor %}
+    {% endif%}
+    </tbody>    
+  </table>
+</div>
+<a href="{% url 'add_record' %}" class="btn btn-success">Add new record</a>
+
+
+<div class="col-md-6 offset-md-3">
+{% else %}
+    <h1>Login</h1>
+    <form action="{% url 'home' %}" method="POST">
+        {% csrf_token%}
+        <form>
+            <div class="mb-3">
+              <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>  
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+    </form>
+</div>
+{% endif %}
+{% endblock %}
